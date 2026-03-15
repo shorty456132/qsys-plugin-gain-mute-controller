@@ -12,7 +12,7 @@ end
 
 -- The name that will initially display when dragged into a design
 function GetPrettyName(props)
-  return "Gain and Mute Controller " .. PluginInfo.Version
+  return "Gain and Mute Controller, version " .. PluginInfo.Version
 end
 
 -- Optional function used if plugin has multiple pages

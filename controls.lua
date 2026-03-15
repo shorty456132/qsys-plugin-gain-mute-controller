@@ -36,9 +36,36 @@ table.insert(ctrls, {
   PinStyle = "Output"
 })
 
--- Create enable/disable toggles and component name displays for each possible component
-local maxComponents = props["Max Components"].Value
-for i = 1, maxComponents do
+-- Navigation controls
+table.insert(ctrls, {
+  Name = "PageUp",
+  ControlType = "Button",
+  ButtonType = "Trigger",
+  Count = 1,
+  UserPin = true,
+  PinStyle = "Input"
+})
+
+table.insert(ctrls, {
+  Name = "PageDown",
+  ControlType = "Button",
+  ButtonType = "Trigger",
+  Count = 1,
+  UserPin = true,
+  PinStyle = "Input"
+})
+
+-- Page indicator
+table.insert(ctrls, {
+  Name = "PageInfo",
+  ControlType = "Text",
+  Count = 1,
+  UserPin = true,
+  PinStyle = "Output"
+})
+
+-- Create 12 static display slots for components
+for i = 1, 12 do
   table.insert(ctrls, {
     Name = "Enable" .. i,
     ControlType = "Button",
@@ -47,7 +74,7 @@ for i = 1, maxComponents do
     UserPin = true,
     PinStyle = "Both"
   })
-  
+
   table.insert(ctrls, {
     Name = "ComponentName" .. i,
     ControlType = "Text",

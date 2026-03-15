@@ -1,5 +1,4 @@
 local CurrentPage = PageNames[props["page_index"].Value]
-local maxComponents = props["Max Components"].Value
 
 if CurrentPage == "Control" then
   -- Plugin background
@@ -104,6 +103,57 @@ if CurrentPage == "Control" then
     ZOrder = -5
   })
 
+  -- Navigation section
+  table.insert(graphics, {
+    Type = "Label",
+    Text = "Navigation:",
+    Color = { 200, 200, 200 },
+    Font = "Roboto",
+    FontSize = 11,
+    HTextAlign = "Left",
+    Position = { 25, 105 },
+    Size = { 80, 20 }
+  })
+
+  -- Page Up button
+  layout["PageUp"] = {
+    PrettyName = "Control~Page Up",
+    Style = "Button",
+    ButtonStyle = "Trigger",
+    ButtonVisualStyle = "Flat",
+    Position = { 110, 105 },
+    Size = { 30, 20 },
+    Color = { 100, 150, 255 },
+    Legend = "▲",
+    FontSize = 12,
+    CornerRadius = 4
+  }
+
+  -- Page Down button
+  layout["PageDown"] = {
+    PrettyName = "Control~Page Down",
+    Style = "Button",
+    ButtonStyle = "Trigger",
+    ButtonVisualStyle = "Flat",
+    Position = { 145, 105 },
+    Size = { 30, 20 },
+    Color = { 100, 150, 255 },
+    Legend = "▼",
+    FontSize = 12,
+    CornerRadius = 4
+  }
+
+  -- Page info display
+  layout["PageInfo"] = {
+    PrettyName = "Control~Page Info",
+    Style = "Text",
+    Position = { 180, 105 },
+    Size = { 100, 20 },
+    FontSize = 10,
+    Color = { 255, 255, 255 },
+    CornerRadius = 4
+  }
+
   -- Headers
   table.insert(graphics, {
     Type = "Label",
@@ -113,7 +163,7 @@ if CurrentPage == "Control" then
     FontSize = 12,
     FontStyle = "Bold",
     HTextAlign = "Center",
-    Position = { 25, 105 },
+    Position = { 25, 135 },
     Size = { 60, 20 }
   })
 
@@ -125,42 +175,37 @@ if CurrentPage == "Control" then
     FontSize = 12,
     FontStyle = "Bold",
     HTextAlign = "Left",
-    Position = { 95, 105 },
+    Position = { 95, 135 },
     Size = { 380, 20 }
   })
 
-  -- Create controls for each component slot
-  for i = 1, maxComponents do
-    local yPos = 130 + (i - 1) * 30
-    
-    -- Stop if we exceed the available space
-    if yPos > 460 then
-      break
-    end
+  -- Create 12 static display slots
+  for i = 1, 12 do
+    local yPos = 160 + (i - 1) * 25
 
     -- Enable toggle button
     layout["Enable" .. i] = {
-      PrettyName = string.format("Control~Enable Component %i", i),
+      PrettyName = string.format("Control~Enable Slot %i", i),
       Style = "Button",
       ButtonStyle = "Toggle",
       ButtonVisualStyle = "Flat",
       Position = { 30, yPos },
-      Size = { 50, 24 },
+      Size = { 50, 22 },
       Color = { 0, 180, 80 },
       OffColor = { 80, 80, 80 },
       UnlinkOffColor = true,
       Legend = "ON",
-      FontSize = 10,
+      FontSize = 9,
       CornerRadius = 4
     }
 
     -- Component name display
     layout["ComponentName" .. i] = {
-      PrettyName = string.format("Control~Component Name %i", i),
+      PrettyName = string.format("Control~Component Name Slot %i", i),
       Style = "Text",
       Position = { 95, yPos },
-      Size = { 380, 24 },
-      FontSize = 11,
+      Size = { 380, 22 },
+      FontSize = 10,
       Color = { 255, 255, 255 },
       CornerRadius = 4
     }
@@ -205,8 +250,8 @@ elseif CurrentPage == "Instructions" then
 
   table.insert(graphics, {
     Type = "Label",
-    Text = "1. Any Gain controls will need script access enabled and needs to contain 'Mic' in the script name",
-    Size = { 460, 40 },
+    Text = "1. Any Gain controls will need script access enabled",
+    Size = { 460, 30 },
     Position = { 20, 60 },
     VTextAlign = "Top",
     HTextAlign = "Left",
@@ -216,9 +261,9 @@ elseif CurrentPage == "Instructions" then
 
   table.insert(graphics, {
     Type = "Label",
-    Text = "2. Go to the Control page and click 'Refresh' to scan for gain components",
-    Size = { 460, 40 },
-    Position = { 20, 110 },
+    Text = "2. Go to the Control page and click 'Refresh' to scan for all gain components",
+    Size = { 460, 30 },
+    Position = { 20, 95 },
     VTextAlign = "Top",
     HTextAlign = "Left",
     Color = { 200, 200, 200 },
@@ -227,9 +272,9 @@ elseif CurrentPage == "Instructions" then
 
   table.insert(graphics, {
     Type = "Label",
-    Text = "3. Enable the components you want to auto-control by clicking their toggle buttons",
-    Size = { 460, 40 },
-    Position = { 20, 160 },
+    Text = "3. Use Up/Down arrows to navigate through found components if more than 12 exist",
+    Size = { 460, 30 },
+    Position = { 20, 130 },
     VTextAlign = "Top",
     HTextAlign = "Left",
     Color = { 200, 200, 200 },
@@ -238,9 +283,20 @@ elseif CurrentPage == "Instructions" then
 
   table.insert(graphics, {
     Type = "Label",
-    Text = "4. Enabled components will auto-mute when gain reaches 0 and unmute when raised above previous position",
-    Size = { 460, 40 },
-    Position = { 20, 210 },
+    Text = "4. Enable the components you want to auto-control by clicking their toggle buttons",
+    Size = { 460, 30 },
+    Position = { 20, 165 },
+    VTextAlign = "Top",
+    HTextAlign = "Left",
+    Color = { 200, 200, 200 },
+    FontSize = 12
+  })
+
+  table.insert(graphics, {
+    Type = "Label",
+    Text = "5. Enabled components will auto-mute when gain reaches 0 and unmute when raised above previous position",
+    Size = { 460, 30 },
+    Position = { 20, 200 },
     VTextAlign = "Top",
     HTextAlign = "Left",
     Color = { 200, 200, 200 },
