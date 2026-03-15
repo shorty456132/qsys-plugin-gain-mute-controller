@@ -1,0 +1,1 @@
+-- No component wiring needed
